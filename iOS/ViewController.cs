@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Foundation;
 using UIKit;
 
 namespace TravelNative.iOS
@@ -37,6 +37,21 @@ namespace TravelNative.iOS
                 alert.AddAction(cancelAction);
 
                 PresentViewController(alert, true, () => {});
+            }
+            else
+            {
+                if (this.usernameTextField.Text.ToLower() != "test")
+                {
+                    var alert = UIAlertController.Create("Alert", "Username or password is not correct!", UIAlertControllerStyle.Alert);
+                    var cancelAction = UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null);
+                    alert.AddAction(cancelAction);
+
+                    PresentViewController(alert, true, () => { });
+                }
+                else
+                {
+                    this.PerformSegue("HomeViewController", null);
+                }
             }
         }
 
