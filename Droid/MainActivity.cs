@@ -7,7 +7,9 @@ namespace TravelNative.Droid
     [Activity(Label = "TravelNative", MainLauncher = true, Icon = "@mipmap/icon")]
     public class MainActivity : Activity
     {
-        int count = 1;
+        EditText usernameEditText;
+        EditText passwordEditText;
+        Button loginButton;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -15,13 +17,26 @@ namespace TravelNative.Droid
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
-
-            // Get our button from the layout resource,
-            // and attach an event to it
-            Button button = FindViewById<Button>(Resource.Id.myButton);
-
-            button.Click += delegate { button.Text = $"{count++} clicks!"; };
+            this.SetupViews();
         }
+
+        void SetupViews()
+        {
+            this.usernameEditText = FindViewById<EditText>(Resource.Id.usernameEditText);
+            this.passwordEditText = FindViewById<EditText>(Resource.Id.passwordEditText);
+            this.loginButton = FindViewById<Button>(Resource.Id.loginButton);
+
+            this.loginButton.Click += OnLoginButtonClicked;
+        }
+
+        void OnLoginButtonClicked(object sender, System.EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.usernameEditText.Text) || string.IsNullOrEmpty(this.passwordEditText.Text))
+            {
+                Toast.MakeText(this, "Username or password is missing!", ToastLength.Long).Show();
+            }
+        }
+
     }
 }
 

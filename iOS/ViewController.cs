@@ -6,7 +6,6 @@ namespace TravelNative.iOS
 {
     public partial class ViewController : UIViewController
     {
-        int count = 1;
 
         public ViewController(IntPtr handle) : base(handle)
         {
@@ -15,14 +14,12 @@ namespace TravelNative.iOS
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            this.SetupViews();
+        }
 
-            // Perform any additional setup after loading the view, typically from a nib.
-            Button.AccessibilityIdentifier = "myButton";
-            Button.TouchUpInside += delegate
-            {
-                var title = string.Format("{0} clicks!", count++);
-                Button.SetTitle(title, UIControlState.Normal);
-            };
+        void SetupViews()
+        {
+            this.loginButton.TouchUpInside += OnLoginButtonClicked;
         }
 
         public override void DidReceiveMemoryWarning()
@@ -30,5 +27,18 @@ namespace TravelNative.iOS
             base.DidReceiveMemoryWarning();
             // Release any cached data, images, etc that aren't in use.		
         }
+
+        void OnLoginButtonClicked(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.usernameTextField.Text) || string.IsNullOrEmpty(this.passwordTextField.Text))
+            {
+                var alert = UIAlertController.Create("Alert", "Username or password is missing!", UIAlertControllerStyle.Alert);
+                var cancelAction = UIAlertAction.Create("OK", UIAlertActionStyle.Cancel, null);
+                alert.AddAction(cancelAction);
+
+                PresentViewController(alert, true, () => {});
+            }
+        }
+
     }
 }
