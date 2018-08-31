@@ -1,14 +1,14 @@
 ﻿using Android.App;
 using Android.Widget;
 using Android.OS;
+using Android.Content;
 
 namespace TravelNative.Droid
 {
     [Activity(Label = "TravelNative", MainLauncher = true, Icon = "@mipmap/icon")]
     public class MainActivity : Activity
     {
-        EditText usernameEditText;
-        EditText passwordEditText;
+        EditText usernameEditText, passwordEditText;
         Button loginButton;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -34,6 +34,21 @@ namespace TravelNative.Droid
             if (string.IsNullOrEmpty(this.usernameEditText.Text) || string.IsNullOrEmpty(this.passwordEditText.Text))
             {
                 Toast.MakeText(this, "Username or password is missing!", ToastLength.Long).Show();
+            }
+            else
+            {
+                if(this.usernameEditText.Text.ToLower() != "test")
+                {
+                    Toast.MakeText(this, "Username or password is not correct!", ToastLength.Long).Show();
+                }
+                else
+                {
+                    var intent = new Intent(this, typeof(HomeActivity));
+                    // Send the username as well to the Activity
+                    intent.PutExtra("username", this.usernameEditText.Text.ToLower());
+                    StartActivity(intent);
+                }
+
             }
         }
 
